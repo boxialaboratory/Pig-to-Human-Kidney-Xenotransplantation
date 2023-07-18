@@ -22,12 +22,12 @@ library(glmGamPoi)
 
 ### Input Data ###
 
-sample1 <- Read10X("rawdata/count-0h/")
-sample2 <- Read10X("rawdata/count-6h/")
-sample3 <- Read10X("rawdata/count-12h/")
-sample4 <- Read10X("rawdata/count-24h/")
-sample5 <- Read10X("rawdata/count-48h/")
-sample6 <- Read10X("rawdata/count-53h/")
+sample1 <- Read10X("second_kidney_PBMC0h_hg38_filtered_feature_bc_matrix.h5")
+sample2 <- Read10X("second_kidney_PBMC6h_hg38_filtered_feature_bc_matrix.h5")
+sample3 <- Read10X("second_kidney_PBMC12h_hg38_filtered_feature_bc_matrix.h5")
+sample4 <- Read10X("second_kidney_PBMC24h_hg38_filtered_feature_bc_matrix.h5")
+sample5 <- Read10X("second_kidney_PBMC48h_hg38_filtered_feature_bc_matrix.h5")
+sample6 <- Read10X("second_kidney_PBMC53h_hg38_filtered_feature_bc_matrix.h5")
 
 ### Make Seurat Object ###
 
