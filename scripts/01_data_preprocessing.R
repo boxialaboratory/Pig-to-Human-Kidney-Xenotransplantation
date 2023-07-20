@@ -547,3 +547,43 @@ kidneys <- FindClusters(kidneys, resolution = 0.3)
 DimPlot(kidneys, reduction = "umap")
 # view by origin
 DimPlot(kidneys, reduction = "umap", label = T, split.by = "origin")
+
+#### cell type annotation ####
+# Figure 1 D
+DotPlot(kidneys, 
+          features = c(
+                       "SLC34A1", # proximal tubules cells,
+                       "SLC6A18",
+                       "SLC47A2",
+                       
+                       "STMN1", # proximal tubule VIM+
+                       "PCLAF",
+                       "HMGB2",
+                       
+                       "CALD1", # proximal tubule VIM+
+                        "VIM",
+                       "ANXA2",
+                       
+                       "SLC12A1", # thick ascending limb
+                       "CLDN19",
+                       #"UMOD",
+                       "KRT7",
+                       
+                       "CALB1", # distal tubular cells
+                       "AVPR2",
+                       "AQP2",
+                       
+                       "SLC26A7", # IC type A
+                       "SLC4A1",
+                       "ATP6V0A4",
+                       "HMX2", # IC type B
+                       "LUM",
+                       "SLC26A4",
+                       "ATP6V1G3", # intercalated cells
+                       "EMCN", # endo
+                       "PECAM1",
+                       "CDH5",
+                       "HLA-DRA",
+                       "LYZ",# Macrophage
+                       "C1QA"
+                       )) + theme(axis.text.x = element_text(angle = 90))
