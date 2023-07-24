@@ -5,51 +5,6 @@ library(tidyverse)
 library(reshape2)
 library(RColorBrewer)
 
-##### Endothelial Activation #####
-# Figure 3 A
-VlnPlot(subset(kidneys,
-subset = cell_types == "Endo"),
-features = c(
-	"CDH5",
-	"CDH13", 
-	"PECAM1",
-	"RAMP3", 
-	"TM4SF18"),
-group.by = "Condition",
-split.by = "cell_types",
-pt.size = 0.05,
-combine = TRUE,
-flip = TRUE,
-same.y.lims = TRUE,
-stack = TRUE) + 
-	scale_fill_manual(values = "pink") +
-	theme_classic()+
-	theme(axis.title = element_blank())+
-	stat_compare_means(aes(group = Condition), 
-label = "p.signif",
-method = "wilcox.test", 
-comparisons = list(c("kidney_1st_untreated_rt","kidney_1st_treated"), c("kidney_2nd_untreated_rt","kidney_2nd_treated"))) +
-	ylim(0,6)
-
-# Figure 3 B
-VlnPlot(Immune,
-		  features = c("ANKRD22", "SLAMF8"),
-		  group.by = "Condition",
-		  split.by = "Immune_Idents",
-		  pt.size = 0.05,
-		  stack = TRUE,
-		  combine = TRUE,
-		  flip = TRUE,
-		  same.y.lims = TRUE,
-		  cols = c("#2B69A6","#7DC3F5","#6D9D9F","#52A75E","#A6EA9A"))+
-	stat_compare_means(aes(group = Condition), 
-label = "p.signif", 
-method = "wilcox.test", 
-comparisons = list(c("kidney_1st_untreated_rt","kidney_1st_treated"), c("kidney_2nd_untreated_rt","kidney_2nd_treated")))+
-	theme_classic() +
-	theme(axis.text.x = element_blank()) +
-	ylim(NA, 3)
-
 ##### Figure 3 #####
 ##### Bulk Data for Expression over Time #####
 bulk <- read.csv("data/2nd_kidney_bulk.csv")
@@ -109,8 +64,6 @@ check_genes_and_assign_colors <- function(genes, color, category, gene_order){
 abmr <- check_genes_and_assign_colors(genes_abmr, "Reds", "Antibody-mediated Rejection", gene_order_abmr)
 tcmr <- check_genes_and_assign_colors(genes_tcmr, "Blues", "T-Cell Mediated Rejection", gene_order_tcmr)
 
-# Figure 3 C
-
 # define function for plotting all rejection-related markers
 plotBulkCategories <- function(data, gene_color_mapping, title){
   ggplot(data, aes(x = as.numeric(variable), y = value, group = gene, color = gene)) +
@@ -126,10 +79,79 @@ plotBulkCategories <- function(data, gene_color_mapping, title){
     ggtitle(title)
 }
 
+# Figure 3 A
 plotBulkCategories(abmr$data, 
 						 abmr$gene_color_mapping, 
 						 "Antibody-mediated Rejection Over Time")
-# Figure 3 D
+# Figure 3 B
 plotBulkCategories(tcmr$data, 
 						 tcmr$gene_color_mapping, 
 						 "T-Cell Mediated Rejection Over Time")
+##### Endothelial Activation ####
+# Figure 3 C
+VlnPlot(subset(kidneys,
+subset = cell_types == "Endo"),
+features = c(
+	"CDH5",
+	"CDH13", 
+	"PECAM1",
+	"RAMP3", 
+	"TM4SF18"),
+group.by = "Condition",
+split.by = "cell_types",
+pt.size = 0.05,
+combine = TRUE,
+flip = TRUE,
+same.y.lims = TRUE,
+stack = TRUE) + 
+	scale_fill_manual(values = "pink") +
+	theme_classic()+
+	theme(axis.title = element_blank())+
+	stat_compare_means(aes(group = Condition), 
+label = "p.signif",
+method = "wilcox.test", 
+comparisons = list(c("kidney_1st_untreated_rt","kidney_1st_treated"), c("kidney_2nd_untreated_rt","kidney_2nd_treated"))) +
+	ylim(0,6)
+
+# Figure 3 D
+VlnPlot(Immune1,
+		  features = c("ANKRD22",
+		  		"SLAMF8"),
+		  group.by = "Immune_Idents",
+		  split.by = "Condition",
+		  pt.size = 0.01,
+		  stack = TRUE,
+		  combine = TRUE,
+		  flip = TRUE,
+		  same.y.lims = TRUE,
+		  cols = c("#FDD6D5","#FF7976"))+
+	ylim(NA, 3)+
+	theme_classic2() +
+	theme(axis.text.x = element_text(angle = 90, vjust = 0.1, hjust=1),
+			axis.title = element_blank())+
+	stat_compare_means(aes(group = Immune_Idents), 
+							 label = "p.signif", 
+							 method = "wilcox.test", 
+							 comparisons = list(c("Porcine_NKT","Human_NK"),
+							 						 c("Porcine_Macrophage","Human_Macrophage")))
+
+VlnPlot(Immune2,
+		  features = c("ANKRD22",
+		  				 "SLAMF8"),
+		  group.by = "Immune_Idents",
+		  split.by = "Condition",
+		  pt.size = 0.01,
+		  stack = TRUE,
+		  combine = TRUE,
+		  flip = TRUE,
+		  same.y.lims = TRUE,
+		  cols = c("#8FD0FF","#5081ee"))+
+	ylim(NA, 3)+
+	theme_classic2() +
+	theme(axis.text.x = element_text(angle = 90, vjust = 0.1, hjust=1),
+			axis.title = element_blank())+
+	stat_compare_means(aes(group = Immune_Idents), label = "p.signif", method = "wilcox.test", 
+							 comparisons = list(c("Porcine_NKT","Human_NK"),
+							 						 c("Porcine_Macrophage","Human_Macrophage")))
+
+
