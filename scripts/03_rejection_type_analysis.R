@@ -16,7 +16,6 @@ bulk <- bulk[,-c(1)]
 bulk$T0 <- rowMeans(bulk[, c("0.1", "0.2")])
 bulk <- bulk[, setdiff(names(bulk), c("0.1", "0.2"))]
 
-# Calculate log10 fold change across different time points for each gene.
 # Here, we're calculating the fold change relative to the average T0 value we just calculated.
 bulk <- log2(bulk / bulk[,"T0"])
 bulk$gene <- rownames(bulk)
